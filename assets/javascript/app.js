@@ -1,4 +1,6 @@
-console.log("test");
+function startNew() {
+
+$("#startOver").empty();
 var question1 = {
     question: "How many feet are in a mile?",
     answer1: "mile1",
@@ -37,17 +39,19 @@ var lengthOfGame = questions.length;
 var tracker = 0;
 var wins = 0;
 var losses = 0;
+var unanswered = 0;
 var intervalId;
-var number = 30;
+var number = 5;
 
 console.log("Length: " + questions.length);
 console.log("Questions: " + questions);
 
 
 function newQuestion() {
+    if(questions.length>0) {
     var min = 0;
     var max = questions.length - 1;
-    number = 30;
+    number = 5;
 
     
     // generates random number
@@ -65,18 +69,22 @@ function newQuestion() {
 
     var a = $("<button>");
     a.attr("id", "answer1");
+    a.attr("value", "incorrect")
     $("#buttons").append(a);
 
     var b = $("<button>");
     b.attr("id", "answer2");
+    b.attr("value", "incorrect")
     $("#buttons").append(b);
 
     var c = $("<button>");
     c.attr("id", "answer3");
+    c.attr("value", "incorrect")
     $("#buttons").append(c);
 
     var d = $("<button>");
     d.attr("id", "correctAnswer");
+    d.attr("value", "correct")
     $("#buttons").append(d);
 
     $("#result").text("");
@@ -86,18 +94,22 @@ function newQuestion() {
     $("#answer2").text(currentQuestion.answer2);
     $("#answer3").text(currentQuestion.answer3);
     $("#correctAnswer").text(currentQuestion.correctAnswer);
-    $("#timer").text(30);
+    $("#timer").text(5);
 
     run();
+
+    
 
     $("button").on("click", function() {
         stop();
         var answer = this.value;
         console.log("test: " + answer);
         if(answer === "correct") {
+            wins++;
             $("#result").text("You were right!!!");
         }
         else {
+            losses++;
             $("#result").text("NOPE!");
         }
     
@@ -112,15 +124,36 @@ function newQuestion() {
     });
     return currentQuestion;
 
+    }
+    else {
+        $("#result").text("All done! Here's how you did:");
+        $("#question").empty();
+        $("#pic").html(
+            "<p>Correct: " + wins + "<br>" +
+            "Incorrect: " + losses + "<br>" +
+            "Unanswered: " + unanswered + "</p>"
+            );
+        $("#buttons").empty();
+
+        var e = $("<button>");
+        e.attr("id", "redo");
+        $("#startOver").append(e);
+        $("#redo").text("Start over?");
+        return true;
+    }
 
 }
 
 
+
 var currentQuestion = newQuestion();
+if (currentQuestion) {
+    return;
+}
 console.log(currentQuestion);
 
 function run() {
-    number = 30;
+    number = 5;
     clearInterval(intervalId);
     intervalId = setInterval(decrement, 1000);
   }
@@ -130,13 +163,22 @@ function decrement() {
     number--;
 
     $("#timer").text(number);
-
-    if (number === 0) {
-
-      // stop(); //this needs to be a function moving them to the next page
-
-      alert("Time Up!");
+    
+    if(number === 0) {
+        unanswered++;
+        stop();
+    
+        $("#result").text("Out of time!!!");
+        
+        var help = currentQuestion.gif;
+        console.log("help: " + help);
+        $("#buttons").empty();
+        $("#pic").html('<img src=' + help + ' />');
+    
+        console.log("Does this work?");
+        var test = setTimeout(newQuestion, 1000);
     }
+    
   }
 
 function stop() {
@@ -147,187 +189,14 @@ function stop() {
     clearInterval(intervalId);
   }
 
-// $("#question").text(currentQuestion.question);
-// $("#answer1").text(currentQuestion.answer1);
-// $("#answer2").text(currentQuestion.answer2);
-// $("#answer3").text(currentQuestion.answer3);
-// $("#correctAnswer").text(currentQuestion.correctAnswer);
+}
 
-// function run() {
-//     clearInterval(intervalId);
-//     intervalId = setInterval(decrement, 1000);
-//   }
-
-// function decrement() {
-
-//     number--;
-
-//     $("#timer").text(number);
-
-//     if (number === 0) {
-
-//       // stop(); //this needs to be a function moving them to the next page
-
-//       alert("Time Up!");
-//     }
-//   }
-
-// $("button").on("click", function() {
-//     stop();
-//     var answer = this.value;
-//     console.log("test: " + answer);
-//     if(answer === "correct") {
-//         $("#result").text("You were right!!!");
-//     }
-//     else {
-//         $("#result").text("NOPE!");
-//     }
-
-//     var help = currentQuestion.gif;
-//     console.log("help: " + help);
-//     $("#buttons").empty();
-//     $("#pic").html('<img src=' + help + ' />');
-
-//     console.log("Does this work?");
-//     var test = setTimeout(newQuestion, 1000);
-
-// });
+startNew();
 
 
-// function displayNewWord() {
-//     document.getElementById("currentWord").innerHTML = "";
-//     for(i=0; i<currentWord.length; i++) {
-//         document.getElementById("currentWord").innerHTML = document.getElementById("currentWord").innerHTML + displayedWord[i];   
-//     }
-//     return finalWord = document.getElementById("currentWord").innerHTML;
-// }
-// function displayWord() {
-//     // display the _ _ _ ... according to the number of letters in the word
-//     for (i=0; i<currentWord.length; i++) {
-//         displayedWord.push("_ ");
-//     }
-    
-//     return finalWord = displayNewWord();
-// }
+console.log("ARE YOU HERE YET?")
 
-// displayWord();
-
-// console.log("This is the current word: " + finalWord)
-
-// function spliceArray(x, y) {
-//     displayedWord.splice(x, 1, y);
-//   }
-
-// // letter checking function
-// document.onkeyup = function(event) {
-    
-//     var letter = event.key.toLowerCase();
-//     if (letter != "a" && letter != "b" && letter != "c" && letter != "d" && letter != "e" && letter != "f" && letter != "g" && letter != "h" && letter != "i" && letter != "j" && letter != "k" && letter != "l" && letter != "m" && letter != "n" && letter != "o" && letter != "p" && letter != "q" && letter != "r" && letter != "s" && letter != "t" && letter != "u" && letter != "v" && letter != "w" && letter != "x" && letter != "y" && letter != "z") {
-//         return;
-//     }
-//     var j = 0;
-//     var k = 0;
-//     console.log("Does this work? " + currentWord);
-
-//     for(i=0; i<currentWord.length; i++) {
-        
-//         if(letter === currentWord.charAt(i)) {
-//             k++;
-//         }
-        
-//     }
-
-//     if(k===0) {
-//         for(i=0; i<incorrectGuesses.length; i++) {
-//             if(letter === incorrectGuesses[i]) {
-//                 console.log("TEST");
-//                 return;
-//             }
-//         }
-//         incorrectGuessesRemaining--;
-//         document.getElementById("guesses").innerHTML = incorrectGuessesRemaining;
-//         incorrectGuesses.push(letter);
-
-//         var check = document.getElementById("guessedLetters").innerHTML;
-//         if(check === "") {
-//             document.getElementById("guessedLetters").innerHTML = letter;
-//         }
-//         else {
-//             document.getElementById("guessedLetters").innerHTML = document.getElementById("guessedLetters").innerHTML + ", " + letter;
-//         }
-
-//         if(incorrectGuessesRemaining==0) {
-//             incorrectGuesses = [];
-//             document.getElementById("guessedLetters").innerHTML = "";
-//             incorrectGuessesRemaining = 6;
-//             document.getElementById("guesses").innerHTML = incorrectGuessesRemaining;
-//             displayedWord = [];
-//             if(words.length>0) {
-//                 currentWord = newWord();
-//                 // var currentWord = newWord();
-//                 displayWord();
-//                 // console.log(currentWord);
-//                 return;
-//             }
-//             else {
-//                 document.getElementById("currentWord").innerHTML = "There are no more words. Thank you for playing!";
-//                 return;
-//             }
-//         }
-//     }
-    
-//     for(i=0; i<displayedWord.length; i++) {
-        
-//         if((letter + " ") === displayedWord[i]) {
-//             j++;
-//         }
-        
-//     }
-//     console.log(currentWord.length);
-    
-//     if (j === 0) {
-
-//         for(i=0; i<currentWord.length; i++) {
-//         var correctLetter = currentWord.charAt(i);
-//         console.log("correct letter: " + correctLetter);
-//         console.log("letter: " + letter);
-
-//         if(letter === correctLetter) {
-//             spliceArray(i, letter + " ");
-//             correctLetterCounter++;
-//         }
-//     }
-//     console.log("correct letters:" + correctLetterCounter);
-//     console.log(wins);
-//     displayNewWord();
-//     }
-
-//     console.log("displayed word length: " + displayedWord.length)
-
-//     if(correctLetterCounter === displayedWord.length) {
-//         if(words.length>0) {
-//             incorrectGuesses = [];
-//             document.getElementById("guessedLetters").innerHTML = "";
-//             incorrectGuessesRemaining = 6;
-//             document.getElementById("guesses").innerHTML = incorrectGuessesRemaining;
-//             displayedWord = [];
-//         currentWord = newWord();
-//         // var currentWord = newWord();
-//         displayWord();
-//         // console.log(currentWord);
-//         wins++;
-//         console.log(wins);
-//         document.getElementById("wins").innerHTML = wins;
-
-//         }
-//         else {
-//             document.getElementById("currentWord").innerHTML = "There are no more words. Thank you for playing!";
-//         }
-//         }
-// }
-
-// function playAudio(url) {
-//     var a = new Audio(url);
-//     a.play();
-//     document.getElementById("btn1").disabled = true; 
-//   }
+$("#startOver").on("click", function() {
+    console.log("DOES THIS WORK?")
+    startNew();
+});
