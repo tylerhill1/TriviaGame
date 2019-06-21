@@ -2,10 +2,14 @@ var currentQuestion;
 
 function startNew() {
 
+// jQuery to change what's on the page
 $("#startOver").empty();
 $("#start").empty();
 $("#timeRemaining").text("Time Remaining: ");
 $("#timeRemaining").append("<span id='timer'>" + 10 + "</span>");
+
+// establishing questions for the game
+// you could add as many questions as you want in the same format and the code would still work
 var question1 = {
     question: "How many majors has Roger Federer won?",
     answer1: "18",
@@ -49,20 +53,16 @@ var questions = [
     question4
 ]
 
-
-var lengthOfGame = questions.length;
-var tracker = 0;
 var wins = 0;
 var losses = 0;
 var unanswered = 0;
 var intervalId;
 var number = 10;
 
-console.log("Length: " + questions.length);
-console.log("Questions: " + questions);
-
 
 function newQuestion() {
+    
+    //goes here if there are questions left to be played
     if(questions.length>0) {
     var min = 0;
     var max = questions.length - 1;
@@ -82,6 +82,7 @@ function newQuestion() {
     console.log(currentQuestion);
     $("#buttons").empty();
     
+    //this section randomizes the answers each time
     randomizer = [];
 
     var a = $("<button>");
@@ -225,24 +226,18 @@ function decrement() {
 
 function stop() {
 
-    //  Clears our intervalId
-    //  We just pass the name of the interval
-    //  to the clearInterval function.
     clearInterval(intervalId);
   }
 
 }
 
 
+//for first and last page of game
 $("#start").on("click", function() {
-    console.log("DOES THIS WORK?")
     startNew();
 });
 
 
-console.log("ARE YOU HERE YET?")
-
 $("#startOver").on("click", function() {
-    console.log("DOES THIS WORK?")
     startNew();
 });
