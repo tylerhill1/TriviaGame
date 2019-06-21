@@ -1,37 +1,50 @@
 function startNew() {
 
 $("#startOver").empty();
+$("#start").empty();
+$("#timeRemaining").text("Time Remaining: ");
+$("#timeRemaining").append("<span id='timer'>" + 5 + "</span>");
 var question1 = {
-    question: "How many feet are in a mile?",
-    answer1: "mile1",
-    answer2: "mile2",
-    answer3: "mile3",
-    correctAnswer: "mileCorrect",
-    gif: "assets/images/thumbsup.jpg"
+    question: "How many majors has Roger Federer won?",
+    answer1: "18",
+    answer2: "22",
+    answer3: "24",
+    correctAnswer: "20",
+    gif: "assets/images/fed.gif"
 }
 
 var question2 = {
-    question: "How many feet are in a yard?",
-    answer1: "yard1",
-    answer2: "yard2",
-    answer3: "yard3",
-    correctAnswer: "yardCorrect",
-    gif: "assets/images/thumbsdown.jpg"
+    question: "How many French Opens has Rafael Nadal won?",
+    answer1: "2",
+    answer2: "10",
+    answer3: "8",
+    correctAnswer: "12",
+    gif: "assets/images/nadal.gif"
 }
 
 var question3 = {
-    question: "How many feet are in a meter?",
-    answer1: "meter1",
-    answer2: "meter2",
-    answer3: "meter3",
-    correctAnswer: "meterCorrect",
-    gif: "assets/images/thumbsdown.jpg"
+    question: "How tall is the tallest man on tour?",
+    answer1: "6\'9\"",
+    answer2: "6\'10\"",
+    answer3: "7\"",
+    correctAnswer: "6\'11\"",
+    gif: "assets/images/karlovic.gif"
+}
+
+var question4 = {
+    question: "How short is the shortest man on tour?",
+    answer1: "5\'9\"",
+    answer2: "5\'10\"",
+    answer3: "5\'8\"",
+    correctAnswer: "5\'7\"",
+    gif: "assets/images/diego.gif"
 }
 
 var questions = [
     question1,
     question2,
-    question3
+    question3,
+    question4
 ]
 
 
@@ -66,26 +79,44 @@ function newQuestion() {
     console.log("question array: " + questions);
     console.log(currentQuestion);
     $("#buttons").empty();
+    
+    randomizer = [];
 
     var a = $("<button>");
     a.attr("id", "answer1");
-    a.attr("value", "incorrect")
-    $("#buttons").append(a);
+    a.attr("value", "incorrect");
+    randomizer.push(a);
 
     var b = $("<button>");
     b.attr("id", "answer2");
-    b.attr("value", "incorrect")
-    $("#buttons").append(b);
+    b.attr("value", "incorrect");
+    randomizer.push(b);
 
     var c = $("<button>");
     c.attr("id", "answer3");
-    c.attr("value", "incorrect")
-    $("#buttons").append(c);
+    c.attr("value", "incorrect");
+    randomizer.push(c);
 
     var d = $("<button>");
     d.attr("id", "correctAnswer");
-    d.attr("value", "correct")
-    $("#buttons").append(d);
+    d.attr("value", "correct");
+    randomizer.push(d);
+
+    function shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
+
+    shuffleArray(randomizer);
+
+    $("#buttons").append(randomizer[0]);
+    $("#buttons").append(randomizer[1]);
+    $("#buttons").append(randomizer[2]);
+    $("#buttons").append(randomizer[3]);
 
     $("#result").text("");
     $("#pic").empty();
@@ -106,11 +137,11 @@ function newQuestion() {
         console.log("test: " + answer);
         if(answer === "correct") {
             wins++;
-            $("#result").text("You were right!!!");
+            $("#result").html("You were right!!!");
         }
         else {
             losses++;
-            $("#result").text("NOPE!");
+            $("#result").html("NOPE!<h4>The correct answer was: " + currentQuestion.correctAnswer + "</h4>");
         }
     
         var help = currentQuestion.gif;
@@ -119,7 +150,7 @@ function newQuestion() {
         $("#pic").html('<img src=' + help + ' />');
     
         console.log("Does this work?");
-        var test = setTimeout(newQuestion, 1000);
+        var test = setTimeout(newQuestion, 2500);
     
     });
     return currentQuestion;
@@ -176,7 +207,7 @@ function decrement() {
         $("#pic").html('<img src=' + help + ' />');
     
         console.log("Does this work?");
-        var test = setTimeout(newQuestion, 1000);
+        var test = setTimeout(newQuestion, 2500);
     }
     
   }
@@ -191,7 +222,11 @@ function stop() {
 
 }
 
-startNew();
+
+$("#start").on("click", function() {
+    console.log("DOES THIS WORK?")
+    startNew();
+});
 
 
 console.log("ARE YOU HERE YET?")
