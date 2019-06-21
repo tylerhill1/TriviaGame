@@ -5,7 +5,7 @@ function startNew() {
 $("#startOver").empty();
 $("#start").empty();
 $("#timeRemaining").text("Time Remaining: ");
-$("#timeRemaining").append("<span id='timer'>" + 5 + "</span>");
+$("#timeRemaining").append("<span id='timer'>" + 10 + "</span>");
 var question1 = {
     question: "How many majors has Roger Federer won?",
     answer1: "18",
@@ -56,7 +56,7 @@ var wins = 0;
 var losses = 0;
 var unanswered = 0;
 var intervalId;
-var number = 5;
+var number = 10;
 
 console.log("Length: " + questions.length);
 console.log("Questions: " + questions);
@@ -66,7 +66,7 @@ function newQuestion() {
     if(questions.length>0) {
     var min = 0;
     var max = questions.length - 1;
-    number = 5;
+    number = 10;
 
     
     // generates random number
@@ -131,7 +131,7 @@ function newQuestion() {
     $("#answer2").text(currentQuestion.answer2);
     $("#answer3").text(currentQuestion.answer3);
     $("#correctAnswer").text(currentQuestion.correctAnswer);
-    $("#timer").text(5);
+    $("#timer").text(10);
 
     run();
 
@@ -193,7 +193,7 @@ console.log(currentQuestion);
 
 function run() {
     currentQuestion
-    number = 5;
+    number = 10;
     clearInterval(intervalId);
     intervalId = setInterval(decrement, 1000);
   }
