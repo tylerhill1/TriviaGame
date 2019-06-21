@@ -12,8 +12,12 @@
 
 </head>
 <body>
-    <div class="container">
-            <h1>Tennis Trivia</h1>
+        <div id="bg">
+            <img src="assets/images/tennis-background.jpg" alt="Tennis Net">
+        </div>
+    <div class="container text-center h-100 d-flex vertical-center justify-content-center align-items-center">
+        <div class="col-md-6 col-md-offset-6">
+            <h1 id="headline">Tennis Trivia</h1>
             <h3 id ="timeRemaining"></h3> <!-- This needs to be changed -->
             <h3 id="result"></h3>
             <h1 id="question"></h1>
@@ -21,11 +25,13 @@
             <div id="buttons"></div>
             <div id="startOver"></div>
             <div id="start">
-                <button>
+                <button class="btn btn-success">
                     Start Game
                 </button>
             </div>
+        </div>
     </div>
+
 
 
     <!-- Added link to the jQuery Library -->

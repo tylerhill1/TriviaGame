@@ -1,3 +1,5 @@
+var currentQuestion;
+
 function startNew() {
 
 $("#startOver").empty();
@@ -74,7 +76,7 @@ function newQuestion() {
 
     // pulls the element with that index from the array
     var number = generateRandomInteger(min, max);
-    var currentQuestion = questions[number];
+    currentQuestion = questions[number];
     questions.splice(number, 1);
     console.log("question array: " + questions);
     console.log(currentQuestion);
@@ -85,21 +87,25 @@ function newQuestion() {
     var a = $("<button>");
     a.attr("id", "answer1");
     a.attr("value", "incorrect");
+    a.addClass("btn btn-success");
     randomizer.push(a);
 
     var b = $("<button>");
     b.attr("id", "answer2");
     b.attr("value", "incorrect");
+    b.addClass("btn btn-success");
     randomizer.push(b);
 
     var c = $("<button>");
     c.attr("id", "answer3");
     c.attr("value", "incorrect");
+    c.addClass("btn btn-success");
     randomizer.push(c);
 
     var d = $("<button>");
     d.attr("id", "correctAnswer");
     d.attr("value", "correct");
+    d.addClass("btn btn-success");
     randomizer.push(d);
 
     function shuffleArray(array) {
@@ -147,6 +153,7 @@ function newQuestion() {
         var help = currentQuestion.gif;
         console.log("help: " + help);
         $("#buttons").empty();
+        $("#question").empty();
         $("#pic").html('<img src=' + help + ' />');
     
         console.log("Does this work?");
@@ -168,6 +175,7 @@ function newQuestion() {
 
         var e = $("<button>");
         e.attr("id", "redo");
+        e.addClass("btn btn-success");
         $("#startOver").append(e);
         $("#redo").text("Start over?");
         return true;
@@ -177,22 +185,22 @@ function newQuestion() {
 
 
 
-var currentQuestion = newQuestion();
+currentQuestion = newQuestion();
 if (currentQuestion) {
     return;
 }
 console.log(currentQuestion);
 
 function run() {
+    currentQuestion
     number = 5;
     clearInterval(intervalId);
     intervalId = setInterval(decrement, 1000);
   }
 
 function decrement() {
-
+    currentQuestion;
     number--;
-
     $("#timer").text(number);
     
     if(number === 0) {
@@ -200,10 +208,13 @@ function decrement() {
         stop();
     
         $("#result").text("Out of time!!!");
+        $("#result").append("<h4>The correct answer was: " + currentQuestion.correctAnswer + "</h4>");
         
+        console.log("This is the current QUESTION: " + currentQuestion);
         var help = currentQuestion.gif;
         console.log("help: " + help);
         $("#buttons").empty();
+        $("#question").empty();
         $("#pic").html('<img src=' + help + ' />');
     
         console.log("Does this work?");
